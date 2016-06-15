@@ -1,0 +1,29 @@
+<ion-view view-title="Browse">
+    <ion-content scroll="false">
+        <ion-slide-box on-slide-changed="load(index)" slide-tabs-scrollable="true" show-pager="false" ion-slide-tabs>
+            <ion-slide ion-slide-tab-label="test">
+                <ion-scroll direction="y">
+
+                    <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+                    </ion-refresher>
+
+                    <ul class="list">
+
+                        <li class="item item-thumbnail-left" ng-repeat="user in users">
+                          <img ng-src="{{user.image}}">
+                          <h2>{{user.name}}</h2>
+                          <p>{{user.description}}</p>
+                        </li>
+
+                    </ul>
+
+                    <ion-infinite-scroll immediate-check="false" on-infinite="loadMore()">
+                    </ion-infinite-scroll>
+
+                </ion-scroll>
+            </ion-slide>
+            <ion-slide ion-slide-tab-label="secondTest" ng-click="loadSecond()"><h1>Tab 2</h1></ion-slide>
+            <ion-slide ion-slide-tab-label="boldTest"><h1>Tab 3</h1></ion-slide>
+        </ion-slide-box>
+    </ion-content>
+</ion-view>

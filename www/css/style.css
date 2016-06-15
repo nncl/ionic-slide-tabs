@@ -1,0 +1,21 @@
+/*
+ * Adapting sliding tabs app to ours
+ */
+
+.slidingTabs ul li {
+    width: 33.3333%;
+}
+
+.slidingTabs ul li .ink {
+    background: transparent;
+}
+
+ion-scroll.scroll-view.ionic-scroll.scroll-y {
+    background: orange;
+    min-height: 100%;
+    height: 100%;
+}
+
+ion-scroll.scroll-view.ionic-scroll.scroll-y .scroll {
+    padding-bottom: 46px;
+}
