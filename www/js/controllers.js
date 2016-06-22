@@ -52,7 +52,73 @@ angular.module('starter.controllers', [])
   ];
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('PlaylistCtrl', function($scope, $interval, $cordovaMedia) {
+
+  // settings
+  var src = "http://cut.org.br/system/uploads/audio/8077b9bca414a787488047fc4a6f3552/file/jc-954-250914-audio.mp3";
+  // var media = new Media(src);
+  var media = $cordovaMedia.newMedia(src);
+  $scope.audioVal = 0;
+  $scope.audioMax = 0;
+  $scope.isPlaying = false;
+  var interval;
+
+  // methods
+  $scope.media = function(){
+    if (!$scope.isPlaying) {
+      media.play();
+      var dur = media.getDuration(media);
+      console.log('dur', JSON.stringify(dur));
+      setPosition();
+    } else {
+      $interval.cancel(interval);
+      getPosition();
+      media.pause();
+    }
+
+    $scope.isPlaying = !$scope.isPlaying;
+  };
+
+  $scope.stop = function(){
+    if ($scope.isPlaying) {
+      $scope.isPlaying = !$scope.isPlaying;
+    };
+    $interval.cancel(interval);
+    $scope.audioVal = 0;
+    media.stop();
+  };
+
+  var getPosition = function() {
+
+    media.getCurrentPosition(
+      function (position) {
+        if (position > -1) {
+          $scope.audioVal = position;
+        }
+      },
+      function (e) {
+        console.log("Error getting pos: " + e);
+      }
+    );
+
+  };
+
+  var setPosition = function(){
+    // interval = $interval(function(){
+    //   getPosition();
+    // }, 1000);
+  };
+
+  $scope.$on('$ionicView.beforeLeave', function(){
+    $interval.cancel(interval);
+    media.stop();
+  });
+
+  $scope.seek = function(data){
+    var ms = data * 1000;
+    console.log('data', ms);
+    media.seekTo(ms);
+  };
 })
 
 .controller('BrowseCtrl', function($scope) {
